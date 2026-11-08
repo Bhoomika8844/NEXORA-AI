@@ -1,0 +1,31 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: nexora-backend
+    ports:
+      - "8000:8000"
+    environment:
+      OLLAMA_HOST: "http://host.docker.internal:11434"
+      HF_HOME: "/root/.cache/huggingface"
+    volumes:
+      - ./backend/data:/app/data
+      - huggingface_cache:/root/.cache/huggingface
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: nexora-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  huggingface_cache:

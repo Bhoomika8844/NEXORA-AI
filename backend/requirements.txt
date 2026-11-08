@@ -1,0 +1,11 @@
+﻿fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+pymupdf
+langchain-text-splitters
+sentence-transformers
+chromadb
+rank-bm25
+ollama
+langgraph
