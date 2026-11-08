@@ -1,4 +1,5 @@
-﻿FROM python:3.11-slim
+﻿
+FROM python:3.11-slim
 
 WORKDIR /app
 
@@ -12,8 +13,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY requirements.txt .
 
+# Install CPU-only PyTorch (no CUDA dependencies)
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+    pip install --no-cache-dir torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+
+# Install the remaining application dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app ./app
 
